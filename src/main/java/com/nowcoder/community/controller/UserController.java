@@ -1,5 +1,6 @@
 package com.nowcoder.community.controller;
 
+import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityUtil;
@@ -43,11 +44,13 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
+    @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     public String getSettingPage() {
         return "/site/setting";
     }
 
+    @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model) {
         //验证图片是否存在
@@ -86,6 +89,7 @@ public class UserController {
 
     @RequestMapping(path = "/header/{fileName}", method = RequestMethod.GET)
     public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response) {
+        //通过 @PathVariable 可以将URL中占位符参数{xxx}绑定到处理器类的方法形参中@PathVariable(“xxx“)
         // 服务器存放路径
         fileName = uploadPath + "/" + fileName;
         //文件后缀
