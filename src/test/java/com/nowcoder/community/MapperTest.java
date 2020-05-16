@@ -105,4 +105,13 @@ public class MapperTest {
         loginTicket = loginTicketMapper.selectByTicket("abc");
         System.out.println(loginTicket);
     }
+
+    @Test
+    public void testAddDiscussPost() {
+        DiscussPost post = new DiscussPost();
+        post.setUserId(162);
+        post.setTitle("我就测试一下下");
+        post.setContent("给我康康");
+        discussPostMapper.insertDiscussPost(post);
+    }
 }
