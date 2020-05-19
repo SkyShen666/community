@@ -50,13 +50,13 @@ public class MessageController {
                 map.put("letterCount", messageService.findLetterCount(message.getConversationId()));
                 map.put("unreadCount", messageService.findLetterUnreadCount(user.getId(), message.getConversationId()));
                 int target = user.getId() == message.getFromId() ? message.getToId() : message.getFromId();
-                map.put("target", target);
+                map.put("target", userService.findUserById(target));
 
                 conversations.add(map);
             }
         }
 
-        model.addAttribute(conversations);
+        model.addAttribute("conversations", conversations);
 
         //查询未读消息数量
         int letterUnreadCount = messageService.findLetterUnreadCount(user.getId(), null);
@@ -66,7 +66,7 @@ public class MessageController {
     }
 
     @RequestMapping(path = "/letter/detail/{conversationId}", method = RequestMethod.GET)
-    public String getLetterDetail(@PathVariable String conversationId, Page page, Model model) {
+    public String getLetterDetail(@PathVariable("conversationId") String conversationId, Page page, Model model) {
         //分页信息
         page.setLimit(5);
         page.setPath("/letter/detail/" + conversationId);
@@ -84,6 +84,9 @@ public class MessageController {
             }
         }
         model.addAttribute("letters", letters);
+
+        //私信目标
+        model.addAttribute("target", getLetterTarget(conversationId));
 
         return "/site/letter-detail";
     }
