@@ -117,6 +117,7 @@ public class UserService implements CommunityConstant {
             return ACTIVATION_REPEAT;
         } else if (user.getActivationCode().equals(code)) {
             userMapper.updateStatus(userId, 1);
+            clearCache(userId);
             return ACTIVATION_SUCCESS;
         } else {
             return ACTIVATION_FAILURE;
@@ -186,6 +187,13 @@ public class UserService implements CommunityConstant {
         return (LoginTicket) redisTemplate.opsForValue().get(redisKey);
     }
 
+    /**
+     * 访问redis和访问mysql不能放在同一个事务内，
+     * 因为若访问mysql更新失败，redis若提前清理了缓存 就出现bug了
+     * @param userId
+     * @param headUrl
+     * @return
+     */
     public int updateHeader(int userId, String headUrl) {
 //        return userMapper.updateHeader(userId, headUrl);
         int rows = userMapper.updateHeader(userId, headUrl);
