@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.*;
  *（在开发时这一步最好加上测试，这一步是最容易犯错的地方）
  */
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
 
     /**
