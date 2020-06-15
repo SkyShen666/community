@@ -8,6 +8,7 @@ import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.LoginTicket;
 import com.nowcoder.community.entity.Message;
 import com.nowcoder.community.entity.User;
+import com.nowcoder.community.util.CommunityConstant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = CommunityApplication.class)
-public class MapperTest {
+public class MapperTest implements CommunityConstant {
 
     @Autowired
     private UserMapper userMapper;
@@ -143,4 +144,24 @@ public class MapperTest {
         count = messageMapper.selectLetterUnreadCount(131, "111_131");
         System.out.println(count);
     }
+
+    @Test
+    public void testSelectNotices() {
+        List<Message> list = messageMapper.selectNotices(162, TOPIC_COMMENT, 0, 20);
+        System.out.println("++++++++++++++++++++++++++++++++++++");
+        for (Message message : list) {
+            System.out.println(message);
+        }
+        System.out.println("++++++++++++++++++++++++++++++++++++");
+        Message latestMessage = messageMapper.selectLatestNotice(162, TOPIC_COMMENT);
+        System.out.println(latestMessage);
+        System.out.println("++++++++++++++++++++++++++++++++++++");
+        int noticeCount = messageMapper.selectNoticeCount(162, TOPIC_COMMENT);
+        System.out.println(noticeCount);
+        System.out.println("++++++++++++++++++++++++++++++++++++");
+        int unreadCount = messageMapper.selectNoticeUnreadCount(162, TOPIC_COMMENT);
+        System.out.println(unreadCount);
+        System.out.println("++++++++++++++++++++++++++++++++++++");
+    }
+
 }
