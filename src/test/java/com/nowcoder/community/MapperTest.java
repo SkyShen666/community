@@ -74,7 +74,7 @@ public class MapperTest implements CommunityConstant {
         System.out.println(rows);
     }
 
-    @Test
+   /* @Test
     public void testSelectPosts() {
         List<DiscussPost> list = discussPostMapper.selectDiscussPosts(149, 0, 10);
         for(DiscussPost post : list) {
@@ -83,7 +83,7 @@ public class MapperTest implements CommunityConstant {
 
         int rows = discussPostMapper.selectDiscussPostRows(149);
         System.out.println(rows);
-    }
+    }*/
 
     @Test
     public void testSelectPostRows() {
